@@ -12,7 +12,7 @@ This should not be confused with AI - the art here is about writing simple elega
 
 Boids are a fun concept in graphics programming, where points are given properties that allow them to move around in a manner that mimics a flock or swam. They look very beautiful and are my favorite thing to play with in generative art.
 
-## To build the projec
+## To build the project
 
 cmake -S . -B build
 cmake --build build

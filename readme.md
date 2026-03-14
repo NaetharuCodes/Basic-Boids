@@ -16,3 +16,18 @@ Boids are a fun concept in graphics programming, where points are given properti
 
 cmake -S . -B build
 cmake --build build
+
+## Controls
+
+The Boids have 3 controls: 
+Q/A will control their seperation in space
+W/S will control their alignment with one another
+E/D will control their coherence as a group
+
+## A not on performance
+
+This version of boids uses a naive compute shader set up where we are checking each boid against ALL other boids per cycle. This does mean that the program requires reasonable GPU power to run, even at just 5000 points.
+
+This is intentional - the program is part of the course I am writing on how to make visual art with OpenGL. The next version will dig into how to optimize this by only checking against other boids in the local area. 
+
+If you wish to run this version on a lower end system, you may wish to reduce the number of boids. This is reasoably simple to do, and just requires the hard-coded boid numbers to be lowered in both main() and the shaders.

@@ -1,6 +1,6 @@
-# Simple Boids
+# Basic Boids
 
-This is a simple boids (bird-like-objects) program that uses C++ and OpenGL. It makes up part of the "how to program shaders for generative art" course on my website naetharu.com.
+This is a simple boids (bird-objects) program that uses C++ and OpenGL. It makes up part of the "how to program shaders for generative art" course on my website naetharu.com.
 
 ## What is generative art?
 

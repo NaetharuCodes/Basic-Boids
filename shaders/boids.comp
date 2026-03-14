@@ -1,0 +1,86 @@
+#version 460 core
+layout(local_size_x = 256) in;
+layout(std430, binding = 0) buffer PositionBuffer {
+    vec2 positions[];
+};
+
+layout(std430, binding = 1) buffer VelocityBuffer {
+    vec2 velocities[];
+};
+
+uniform float sepStr;
+uniform float aliStr;
+uniform float cohStr;
+
+void main() {
+
+    uint idx = gl_GlobalInvocationID.x;
+
+    if (idx >= 5000) return;
+
+    vec2 sepForce = vec2(0.0);
+    vec2 alignForce = vec2(0.0);
+    float sepRadius = 0.02;
+
+    float alignRadius = 0.2;
+    int alignCount = 0;
+
+    vec2 cohForce = vec2(0.0);
+    float cohRadius = 0.1;
+    int cohCount = 0;
+
+    for (uint j = 0; j < 5000; j++) {
+        if (j == idx) continue;
+        
+        float dist = distance(positions[idx], positions[j]);
+        
+        if (dist < sepRadius) {
+            sepForce += positions[idx] - positions[j];
+        }
+        
+        if (dist < alignRadius) {
+            alignForce += velocities[j];
+            alignCount++;
+        }
+
+        if (dist < cohRadius) {
+            cohForce += positions[j];
+            cohCount++;
+        }
+    }
+
+    if (alignCount > 0) {
+        alignForce /= float(alignCount);
+    }
+
+    if (cohCount > 0) {
+        cohForce = (cohForce / float(cohCount)) - positions[idx];
+    }
+
+    velocities[idx] += sepForce * sepStr + alignForce * aliStr + cohForce * cohStr;
+
+    float speed = length(velocities[idx]);
+    if (speed > 0.01) {
+        velocities[idx] = (velocities[idx] / speed) * 0.01;
+    }
+
+    positions[idx] += velocities[idx];
+
+    if (positions[idx].x > 1) {
+        positions[idx].x = -1;
+    }
+
+    if (positions[idx].x < -1) {
+        positions[idx].x = 1;
+    }
+
+    if (positions[idx].y > 1) {
+        positions[idx].y = -1;
+    }
+
+    if (positions[idx].y < -1) {
+        positions[idx].y = 1;
+    }    
+
+
+}

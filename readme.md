@@ -24,7 +24,7 @@ Q/A will control their seperation in space
 W/S will control their alignment with one another
 E/D will control their coherence as a group
 
-## A not on performance
+## A note on performance
 
 This version of boids uses a naive compute shader set up where we are checking each boid against ALL other boids per cycle. This does mean that the program requires reasonable GPU power to run, even at just 5000 points.
 
